@@ -9,11 +9,27 @@ class App extends React.Component {
   constructor() {
     super();
     this.renderCode = this.renderCode.bind(this);
+    this.handleSearchInput = this.handleSearchInput.bind(this);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
 
     this.state={
       weatherDescription: '',
       weatherIcon: '',
+      city: '',
     }
+  }
+
+  handleSearchInput(event) {
+    console.log('handleSearch called inside App.js');
+    console.log(event.target.value);
+    this.setState({
+      city: event.target.value,
+    })
+  }
+
+  handleSearchSubmit(event) {
+    console.log('handle search submit');
+    event.preventDefault();
   }
 
   renderCode(code) {
@@ -54,7 +70,7 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Search />
+        <Search handleSearchInput={this.handleSearchInput} handleSearchSubmit={this.handleSearchSubmit} city={this.state.city} />
         <Nav />
         <Switch>
         <Route exact path="/" render={ (props) => (<CurrentWeather {...props} renderCode={this.renderCode} weatherDescription={this.state.weatherDescription} weatherIcon={this.state.weatherIcon} /> )} />
