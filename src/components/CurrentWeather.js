@@ -3,7 +3,7 @@ import React from 'react';
 class CurrentWeather extends React.Component {
 
   render(){
-    var { weatherDescription, weatherIcon, isLoaded, cur_weather} = this.props;
+    var { weatherDescription, weatherIcon, isLoaded, cur_weather, city} = this.props;
 
     if(isLoaded === false){
       return (
@@ -14,8 +14,7 @@ class CurrentWeather extends React.Component {
     else{
       return(
         <div>
-          <div>City</div>
-          <div>Current Time</div>
+          <div>{city.toUpperCase()}</div>
           <img src={'http://openweathermap.org/img/w/' + weatherIcon + '.png'} alt="Smiley face" height="150" width="150"></img>
           <div>
             <h2>{Math.round(cur_weather.main.temp)}</h2>

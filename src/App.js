@@ -3,6 +3,7 @@ import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Search from './components/Search';
 import Nav from './components/Nav';
+import Hourly from './components/Hourly';
 import CurrentWeather from './components/CurrentWeather';
 
 class App extends React.Component {
@@ -19,6 +20,7 @@ class App extends React.Component {
       city: '',
       isLoaded: false,
       cur_weather: '',
+      error: null,
     }
   }
 
@@ -33,6 +35,11 @@ class App extends React.Component {
           isLoaded: true,
           cur_weather: json,
         })   
+      })
+      .catch(error => {
+        this.setState({
+          error: error,
+        })
       });
   }
 
@@ -91,7 +98,10 @@ class App extends React.Component {
         <Search handleSearchInput={this.handleSearchInput} handleSearchSubmit={this.handleSearchSubmit} city={this.state.city} />
         <Nav />
         <Switch>
-        <Route exact path="/" render={ (props) => (<CurrentWeather {...props} isLoaded={this.state.isLoaded} cur_weather={this.state.cur_weather} renderCode={this.renderCode} weatherDescription={this.state.weatherDescription} weatherIcon={this.state.weatherIcon} /> )} />
+          <Route exact path="/" render={ (props) => (<CurrentWeather {...props} city={this.state.city} isLoaded={this.state.isLoaded} 
+          cur_weather={this.state.cur_weather} renderCode={this.renderCode} weatherDescription={this.state.weatherDescription} 
+          weatherIcon={this.state.weatherIcon} /> )} />
+          <Route path="/hourly" component={Hourly}/>
         </Switch>
   
       </BrowserRouter>
