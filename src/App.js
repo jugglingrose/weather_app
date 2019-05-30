@@ -11,25 +11,43 @@ class App extends React.Component {
     this.renderCode = this.renderCode.bind(this);
     this.handleSearchInput = this.handleSearchInput.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.fetchWeatherData = this.fetchWeatherData.bind(this);
 
     this.state={
       weatherDescription: '',
       weatherIcon: '',
       city: '',
+      isLoaded: false,
+      cur_weather: '',
     }
   }
 
+  fetchWeatherData(url) {
+    console.log('fetch weather called');
+    console.log(url);
+    fetch(url)
+      .then( res => res.json())
+      .then(json => {
+        this.renderCode(json.cod);
+        this.setState({
+          isLoaded: true,
+          cur_weather: json,
+        })   
+      });
+  }
+
   handleSearchInput(event) {
-    console.log('handleSearch called inside App.js');
-    console.log(event.target.value);
     this.setState({
       city: event.target.value,
     })
   }
 
   handleSearchSubmit(event) {
+    const {city} = this.state;
     console.log('handle search submit');
     event.preventDefault();
+    var url = 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&&APPID=27aae5ebfd2aaddddcff5171637b34f3';
+    this.fetchWeatherData(url);
   }
 
   renderCode(code) {
@@ -73,7 +91,7 @@ class App extends React.Component {
         <Search handleSearchInput={this.handleSearchInput} handleSearchSubmit={this.handleSearchSubmit} city={this.state.city} />
         <Nav />
         <Switch>
-        <Route exact path="/" render={ (props) => (<CurrentWeather {...props} renderCode={this.renderCode} weatherDescription={this.state.weatherDescription} weatherIcon={this.state.weatherIcon} /> )} />
+        <Route exact path="/" render={ (props) => (<CurrentWeather {...props} isLoaded={this.state.isLoaded} cur_weather={this.state.cur_weather} renderCode={this.renderCode} weatherDescription={this.state.weatherDescription} weatherIcon={this.state.weatherIcon} /> )} />
         </Switch>
   
       </BrowserRouter>
