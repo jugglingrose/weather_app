@@ -1,11 +1,30 @@
 import React from 'react';
-/* http://api.openweathermap.org/data/2.5/forecast?q=london,uk&units=imperial&APPID=27aae5ebfd2aaddddcff5171637b34f3 */ 
 
 class Hourly extends React.Component {
   render() {
-    return(
-      <div>hourly</div>
-    )
+    const { hourly_weather, isLoaded } = this.props;
+    var hours = hourly_weather.list;
+
+    if (isLoaded === false){
+      return(
+        <div>Please enter a city in the search bar above</div>
+      )
+    }
+    else {
+      return(
+        <div>Hourly
+          { 
+            hours.map( (hour) => 
+            <div>
+              <h2>{hour.main.temp}</h2>
+              <h3>{hour.dt_txt}</h3>     
+            </div>
+            )
+
+          }
+        </div>
+      )
+    }
   }
 }
 

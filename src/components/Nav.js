@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Nav = () => (
   <div className="Nav">
-    <a href="/">Now</a>
-    <a href="/hourly">Hourly</a>
+    <Link to="/">Now</Link>
+    <Link to= "/hourly">Hourly</Link>
     <a href="/week">10 Day</a>
   </div>
 );

@@ -3,7 +3,7 @@ import React from 'react';
 class CurrentWeather extends React.Component {
 
   render(){
-    var { weatherDescription, weatherIcon, isLoaded, cur_weather, city} = this.props;
+    var { weatherDescription, weatherIcon, isLoaded, cur_weather, city, backgroundImg} = this.props;
 
     if(isLoaded === false){
       return (
@@ -14,6 +14,7 @@ class CurrentWeather extends React.Component {
     else{
       return(
         <div>
+          <img src={require(`../images/${backgroundImg}.png`)} alt='background_img' height="150" width="150"></img>
           <div>{city.toUpperCase()}</div>
           <img src={'http://openweathermap.org/img/w/' + weatherIcon + '.png'} alt="Smiley face" height="150" width="150"></img>
           <div>
