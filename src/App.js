@@ -3,7 +3,6 @@ import './App.css';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Search from './components/Search';
 import Nav from './components/Nav';
-import Hourly from './components/Hourly';
 import CurrentWeather from './components/CurrentWeather';
 
 class App extends React.Component {
@@ -13,7 +12,7 @@ class App extends React.Component {
     this.handleSearchInput = this.handleSearchInput.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
     this.fetchCurrentWeather = this.fetchCurrentWeather.bind(this);
-    //this.fetchHourlyWeather = this.fetchHourlyWeather.bind(this);
+    this.handleErrors = this.handleErrors.bind(this);
 
     this.state={
       weatherDescription: '',
@@ -22,14 +21,23 @@ class App extends React.Component {
       city: '',
       isLoaded: false,
       cur_weather: '',
-      //hourly_weather: '',
+      error: '',
     }
   }
 
+  handleErrors(res) {
+    console.log('handle errors called');
+    if(!res.ok){
+      this.setState({error: res.statusText})
+    }
+    return res;
+  }
+  
   fetchCurrentWeather(url) {
     console.log('fetch weather called');
     console.log(url);
     fetch(url)
+      .then( this.handleErrors )
       .then( res => res.json())
       .then(json => {
         this.renderCode(json.weather[0].id);
@@ -40,21 +48,8 @@ class App extends React.Component {
           weatherDescription: json.weather[0].description,
         })   
       })
+      .catch(error => console.log(error));
   }
-
-  /*fetchHourlyWeather(url) {
-    console.log('fetch weather called');
-    console.log(url);
-    fetch(url)
-      .then( res => res.json())
-      .then(json => {
-        this.renderCode(json.cod);
-        this.setState({
-          isLoaded: true,
-          hourly_weather: json,
-        })   
-      })
-  } */
 
   handleSearchInput(event) {
     this.setState({
@@ -67,9 +62,7 @@ class App extends React.Component {
     console.log('handle search submit');
     event.preventDefault();
     var currentWeatherUrl = 'http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&&APPID=27aae5ebfd2aaddddcff5171637b34f3';
-    //var hourlyWeatherUrl = 'http://api.openweathermap.org/data/2.5/forecast/?q=' + city + '&units=imperial&APPID=27aae5ebfd2aaddddcff5171637b34f3';
     this.fetchCurrentWeather(currentWeatherUrl);
-    //this.fetchHourlyWeather(hourlyWeatherUrl);
   }
 
   renderCode(code) {
@@ -80,14 +73,12 @@ class App extends React.Component {
     }
     if(code >= 300 & code < 400) {
       this.setState({
-        weatherDescription: 'drizzle',
-        weatherIcon: '10d',
+        backgroundImg: 'rainbow_cat_rain',
       })
     }
     if(code >= 500 && code < 600 ) {
       this.setState({
-        weatherDescription: 'rain',
-        weatherIcon: '10d',
+        backgroundImg: 'rainbow_cat_rain',
       })
     }
     if(code === 800) {
@@ -117,7 +108,6 @@ class App extends React.Component {
           <Route exact path="/" render={ (props) => (<CurrentWeather {...props} city={this.state.city} isLoaded={this.state.isLoaded} 
           cur_weather={this.state.cur_weather} renderCode={this.renderCode} weatherDescription={this.state.weatherDescription} 
           weatherIcon={this.state.weatherIcon} backgroundImg={this.state.backgroundImg} /> )} />
-          <Route path="/hourly" render={ (props) => (<Hourly {...props} city={this.state.city} isLoaded={this.state.isLoaded} /*hourly_weather={this.state.hourly_weather} *//> )} />
         </Switch>
   
       </BrowserRouter>
