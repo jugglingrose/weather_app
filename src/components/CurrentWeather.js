@@ -1,26 +1,29 @@
 import React from 'react';
 
+
 class CurrentWeather extends React.Component {
 
   render(){
-    var { weatherDescription, weatherIcon, isLoaded, cur_weather, city} = this.props;
-
+    var { weatherDescription, isLoaded, cur_weather, city, /*error*/ weatherIcon} = this.props;
+  
     if(isLoaded === false){
       return (
-        <div>Enter your city in the Search bar to see your local weather forecast</div>
+        <div className="Instruction">Enter your city in the Search bar to see your local weather forecast</div>
       )
     }
 
     else{
+      
+    console.log('weatherIcon' + weatherIcon);
+    var rainbow = require(`../images/${weatherIcon}.png`);
+
       return(
-        <div>
-          <div>{city.toUpperCase()}</div>
-          <img src={'http://openweathermap.org/img/w/' + weatherIcon + '.png'} alt="Smiley face" height="150" width="150"></img>
-          <div>
+        <div className="weatherDetailsBox">
+          <h1>{city.toUpperCase()}</h1>
             <h2>{Math.round(cur_weather.main.temp)}</h2>
             <h3>{weatherDescription}</h3>
             <h4>High {Math.round(cur_weather.main.temp_max)} / Low {Math.round(cur_weather.main.temp_min)} </h4>
-        </div> 
+            <img src={rainbow} alt="weather icon" width='150' height='150'></img>
       </div>
       )
     }  

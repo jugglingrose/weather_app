@@ -21,18 +21,19 @@ class App extends React.Component {
       city: '',
       isLoaded: false,
       cur_weather: '',
-      error: '',
+      error: null,
     }
   }
 
   handleErrors(res) {
     console.log('handle errors called');
     if(!res.ok){
-      this.setState({error: res.statusText})
+      //this.setState({error: res.statusText})
+      alert("please enter a valid city name");
     }
     return res;
   }
-  
+
   fetchCurrentWeather(url) {
     console.log('fetch weather called');
     console.log(url);
@@ -44,7 +45,6 @@ class App extends React.Component {
         this.setState({
           isLoaded: true,
           cur_weather: json,
-          weatherIcon: json.weather[0].icon,
           weatherDescription: json.weather[0].description,
         })   
       })
@@ -71,20 +71,17 @@ class App extends React.Component {
     if(code >= 200 & code < 300){
       console.log("code 200s");
     }
-    if(code >= 300 & code < 400) {
+    if(code >= 300 && code < 600 ) {
       this.setState({
-        backgroundImg: 'rainbow_cat_rain',
-      })
-    }
-    if(code >= 500 && code < 600 ) {
-      this.setState({
-        backgroundImg: 'rainbow_cat_rain',
+        backgroundImg: 'rain_bg',
+        weatherIcon: 'rain_cloud',
       })
     }
     if(code === 800) {
       console.log("inside 800");
       this.setState({
-        backgroundImg: 'rainbow_cat',
+        backgroundImg: 'clear_sky_bg',
+        weatherIcon: 'rainbow',
       })
     }
     if(code > 800 && code < 900) {
@@ -100,17 +97,20 @@ class App extends React.Component {
     var bg = require(`./images/${this.state.backgroundImg}.png`);
 
     return (
+      <div>
+
+      
       <div className="backgroundImg" style = {{ backgroundImage: "url( " + bg + " )" }}>
       <BrowserRouter>
         <Search handleSearchInput={this.handleSearchInput} handleSearchSubmit={this.handleSearchSubmit} city={this.state.city} />
-        <Nav />
         <Switch>
           <Route exact path="/" render={ (props) => (<CurrentWeather {...props} city={this.state.city} isLoaded={this.state.isLoaded} 
           cur_weather={this.state.cur_weather} renderCode={this.renderCode} weatherDescription={this.state.weatherDescription} 
-          weatherIcon={this.state.weatherIcon} backgroundImg={this.state.backgroundImg} /> )} />
+          weatherIcon={this.state.weatherIcon} backgroundImg={this.state.backgroundImg} error={this.state.error} /> )} />
         </Switch>
   
       </BrowserRouter>
+      </div>
       </div>
     );
   }

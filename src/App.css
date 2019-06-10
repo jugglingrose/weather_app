@@ -35,7 +35,26 @@
 .backgroundImg {
   height: 100vh;
   width: 100%;
+  padding-top: 20px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+
+.search {
+  text-align: center;
+}
+
+.Instruction {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.weatherDetailsBox{
+  display: inline-block;
+  position: relative;
+  margin-left: auto;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
 }

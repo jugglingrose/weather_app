@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Nav = () => (
   <div className="Nav">
-    <Link to="/">Now</Link>
-    <a href="/week">10 Day</a>
+    <Link className="navButton" to="/">Now</Link>
+    <a className="navButton" href="/week">10 Day</a>
   </div>
 );
 
