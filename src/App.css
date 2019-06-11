@@ -58,3 +58,7 @@
   transform: translateX(-50%);
   text-align: center;
 }
+
+.weatherIconImg{
+  width: 50vh;
+}

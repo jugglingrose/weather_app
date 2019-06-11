@@ -69,7 +69,10 @@ class App extends React.Component {
     console.log('render code called inside App.js');
     console.log(code);
     if(code >= 200 & code < 300){
-      console.log("code 200s");
+      this.setState({
+        backgroundImg: 'lightning_bg',
+        weatherIcon: 'lightning',
+      })
     }
     if(code >= 300 && code < 600 ) {
       this.setState({
@@ -77,17 +80,24 @@ class App extends React.Component {
         weatherIcon: 'rain_cloud',
       })
     }
+    if(code >= 600 && code < 700) {
+      this.setState({
+        backgroundImg: 'snow_bg',
+        weatherIcon: 'snow',
+      })
+    }
+
     if(code === 800) {
       console.log("inside 800");
       this.setState({
         backgroundImg: 'clear_sky_bg',
-        weatherIcon: 'rainbow',
+        weatherIcon: 'sun',
       })
     }
     if(code > 800 && code < 900) {
       this.setState({
-        weatherDescription: 'cloudy',
-        weatherIcon: '03d',
+        backgroundImg: 'rain_bg',
+        weatherIcon: 'rainbow',
       })
     }
   }

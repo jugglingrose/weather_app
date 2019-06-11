@@ -19,11 +19,13 @@ class CurrentWeather extends React.Component {
 
       return(
         <div className="weatherDetailsBox">
-          <h1>{city.toUpperCase()}</h1>
-            <h2>{Math.round(cur_weather.main.temp)}</h2>
-            <h3>{weatherDescription}</h3>
-            <h4>High {Math.round(cur_weather.main.temp_max)} / Low {Math.round(cur_weather.main.temp_min)} </h4>
-            <img src={rainbow} alt="weather icon" width='150' height='150'></img>
+          <div>
+            <h1>{city.toUpperCase()}</h1>
+              <h2>{Math.round(cur_weather.main.temp)}</h2>
+              <h3>{weatherDescription}</h3>
+              <h4>High {Math.round(cur_weather.main.temp_max)} / Low {Math.round(cur_weather.main.temp_min)} </h4>
+            </div>
+            <img src={rainbow} alt="weather icon" className="weatherIconImg"></img>
       </div>
       )
     }  
